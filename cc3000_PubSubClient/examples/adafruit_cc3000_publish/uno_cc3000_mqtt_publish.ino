@@ -8,7 +8,7 @@
 #include <Adafruit_CC3000.h>
 #include <ccspi.h>
 #include <SPI.h>
-#include <PubSubClient.h>
+#include <cc3000_PubSubClient.h>
 
 #define aref_voltage 3.3
 
@@ -42,7 +42,7 @@ union ArrayToIp {
 };
 
 ArrayToIp server = { 0, 0, 0, 0 };
-PubSubClient mqttclient(server.ip, 1883, callback, client, cc3000);
+cc3000_PubSubClient mqttclient(server.ip, 1883, callback, client, cc3000);
 
 void callback (char* topic, byte* payload, unsigned int length) {
   // I have not tested this at all
@@ -118,7 +118,7 @@ void setup(void)
 
 void loop(void) {
  
-  temperatureReading = analogRead(tempPin);  
+  float temperatureReading = analogRead(tempPin);
 
   float voltage = temperatureReading * aref_voltage;
   voltage /= 1024.0; 
